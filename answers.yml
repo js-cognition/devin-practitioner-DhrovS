@@ -1,0 +1,21 @@
+# Devin Fundamentals — Multiple-Choice Questions
+# Replace the blank values with your answer: A, B, C, or D
+
+# Q1: What is the recommended way to give Devin persistent context
+#     that it should remember across ALL sessions (e.g. coding standards,
+#     common patterns, deployment workflows)?
+#
+#   A) Include the instructions in every prompt you send
+#   B) Write it in the repo's README.md file
+#   C) Use Knowledge notes in Devin's settings
+#   D) Use Playbooks
+q1_persistent_context: ""
+
+# Q2: You have asked Devin to add a new API endpoint to your project.
+#     After Devin finishes, what is the BEST next step before merging?
+#
+#   A) Merge immediately — Devin's code is always correct
+#   B) Delete the PR and rewrite the code yourself
+#   C) Review the PR diff, check that CI passes, and test the changes
+#   D) Ask Devin to merge its own PR automatically
+q2_review_workflow: ""
