@@ -1,0 +1,63 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Challenge 1 — Fix the bug
+      id: challenge-1-fix-the-bug
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Challenge 1 — Fix the bug
+        setup-command: pip install -r requirements.txt
+        command: python -m pytest challenges/challenge_1_fix_bug/test_calculator.py
+          -v
+        timeout: 5
+        max-score: 30
+    - name: Challenge 2 — Write an effective prompt
+      id: challenge-2-write-an-effective-prompt
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Challenge 2 — Write an effective prompt
+        setup-command: ''
+        command: python -m pytest challenges/challenge_2_add_feature/test_string_utils.py
+          -v
+        timeout: 5
+        max-score: 30
+    - name: Challenge 3 — Knowledge notes
+      id: challenge-3-knowledge-notes
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Challenge 3 — Knowledge notes
+        setup-command: ''
+        command: python -m pytest challenges/challenge_3_knowledge/test_data_processor.py
+          -v
+        timeout: 5
+        max-score: 30
+    - name: Multiple-choice questions
+      id: multiple-choice-questions
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Multiple-choice questions
+        setup-command: ''
+        command: python scripts/grade_all.py --mc-only
+        timeout: 2
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        CHALLENGE-1-FIX-THE-BUG_RESULTS: "${{steps.challenge-1-fix-the-bug.outputs.result}}"
+        CHALLENGE-2-WRITE-AN-EFFECTIVE-PROMPT_RESULTS: "${{steps.challenge-2-write-an-effective-prompt.outputs.result}}"
+        CHALLENGE-3-KNOWLEDGE-NOTES_RESULTS: "${{steps.challenge-3-knowledge-notes.outputs.result}}"
+        MULTIPLE-CHOICE-QUESTIONS_RESULTS: "${{steps.multiple-choice-questions.outputs.result}}"
+      with:
+        runners: challenge-1-fix-the-bug,challenge-2-write-an-effective-prompt,challenge-3-knowledge-notes,multiple-choice-questions
